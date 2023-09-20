@@ -9,7 +9,7 @@ int main(void)
 {
     Text MyText = {};
 
-    ReadTextFromFile(&MyText, "TextFileMk3.txt");
+    ReadTextFromFile(&MyText, "TextFileMk2.txt");
 
     ArrayOutp(&MyText);
 

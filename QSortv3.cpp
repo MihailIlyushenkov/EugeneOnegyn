@@ -10,13 +10,13 @@ int comparator(const void* a, const void* b)
 
     const char* s1 = *(const char**)a;
     const char* s2 = *(const char**)b;
-    printf("im comparing strings %s and %s    ", s1, s2);
+    // printf("im comparing strings %s and %s    ", s1, s2);
     int res = strcmp(s1, s2);
     if (res == -1)
     {
         res = 0;
     }
-    printf("result is %d\n", res);
+    // printf("result is %d\n", res);
 
     return res;
 }
@@ -24,7 +24,7 @@ int comparator(const void* a, const void* b)
 void swap(void* a, void* b, size_t size)
 {
     // printf("i want to swap pointers: %p - string %s and %p - string %s\n", a, b , *((char**) a), *((char**) b));
-    printf("i want to swap strings %s and %s\n", *( (char**) a), *( (char**) b));
+    // printf("i want to swap strings %s and %s\n", *( (char**) a), *( (char**) b));
     char* a_ptr = (char*) a;
     char* b_ptr = (char*) b;
     size_t i = 0;
@@ -59,7 +59,7 @@ int main(void)
 
 void Sort(void* Data, size_t VolumeSize, size_t ElementSize, int (*comparefunction) (const void *, const void *), Text* Text)
 {
-    printf("\n\n\n---NEW SORT ITERATION---\n");
+    // printf("\n\n\n---NEW SORT ITERATION---\n");
 
     size_t left = 0;
     size_t right = ElementSize*(VolumeSize-1);
@@ -67,7 +67,7 @@ void Sort(void* Data, size_t VolumeSize, size_t ElementSize, int (*comparefuncti
     // printf("Data start is %p\n", Data);
 
     size_t mid = (size_t) Data + ElementSize*(VolumeSize/2); // проблема вот тут
-    (void*) midEL_ptr = calloc(
+
     // printf("mid is %p\n", mid);
 
     // ArrayOutp( (const char**) Data, VolumeSize);
@@ -89,10 +89,19 @@ void Sort(void* Data, size_t VolumeSize, size_t ElementSize, int (*comparefuncti
         // printf("swapif\n");
         if (left <=right)
         {
+            if (left == mid)
+            {
+                mid = right;
+            }
+            else if (right == mid)
+            {
+                mid = left;
+            }
+
             swap((Data + left), (Data + right), ElementSize);
             left += ElementSize;
             right -= ElementSize;
-            ArrayOutp(Text);
+            // ArrayOutp(Text);
         }
 
     } while(left <= right);
@@ -104,7 +113,7 @@ void Sort(void* Data, size_t VolumeSize, size_t ElementSize, int (*comparefuncti
         Sort(Data, (right/ElementSize) + 1, ElementSize, comparator, Text);
     }
 
-    if (left < VolumeSize)
+    if (left < (VolumeSize*ElementSize) )
     {
         Sort(Data + left, VolumeSize - (left/ElementSize), ElementSize, comparator, Text);
     }

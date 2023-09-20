@@ -133,7 +133,7 @@ int GetTextPivots(Text* Text, size_t nchar)
 {
     size_t nlines = 0;
 
-    for (int i = 0; i < nchar; i++)
+    for (size_t i = 0; i < nchar; i++)
     {
         if ( (Text->Buffer)[i] == '\n')
         {
@@ -146,7 +146,7 @@ int GetTextPivots(Text* Text, size_t nchar)
     (Text->TextPivots)[0] = Text->Buffer;
 
     int StringNum = 1;
-    for (int i = 0; i < nchar; i++)
+    for (size_t i = 0; i < nchar; i++)
     {
         if ((Text->Buffer)[i] == '\n')
         {
