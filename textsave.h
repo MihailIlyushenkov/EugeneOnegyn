@@ -13,6 +13,7 @@ struct Text
 };
 
 void ArrayOutp(Text* Text);
+int MyStrcmp(const void* a_ptr, const void* b_ptr);
 
 ssize_t MyGetline(char **lineptr, size_t *n, FILE *stream);
 char *strdup(const char *str);

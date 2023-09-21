@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <malloc.h>
-#include <sys\stat.h>
+#include <sys/stat.h>
 #include "textsave.h"
 
 ssize_t MyGetline(char **lineptr, size_t *n, FILE *stream)
@@ -119,7 +119,7 @@ void ReadTextFromFile(Text* Text, const char* Nameoffile)
 
     char ReadedChar = '0';
 
-    nchar = FileData.st_size;
+    nchar = FileData.st_size + 1;
 
 
     Text -> Buffer = (char *) calloc(nchar, sizeof(char));
@@ -140,16 +140,19 @@ int GetTextPivots(Text* Text, size_t nchar)
             nlines += 1;
         }
     }
+    nlines++;
     Text->NumberOfLines = nlines;
+    printf("%d\n", Text->NumberOfLines);
 
     Text->TextPivots = (char **) calloc(nlines, sizeof(char*));
     (Text->TextPivots)[0] = Text->Buffer;
 
     int StringNum = 1;
-    for (size_t i = 0; i < nchar; i++)
+    for (size_t i = 0; i < nchar - 1; i++)
     {
         if ((Text->Buffer)[i] == '\n')
         {
+            
             (Text->TextPivots)[StringNum] = &((Text->Buffer)[i+1]);
             StringNum += 1;
             (Text->Buffer)[i] = '\0';

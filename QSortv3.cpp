@@ -10,21 +10,13 @@ int comparator(const void* a, const void* b)
 
     const char* s1 = *(const char**)a;
     const char* s2 = *(const char**)b;
-    // printf("im comparing strings %s and %s    ", s1, s2);
     int res = strcmp(s1, s2);
-    if (res == -1)
-    {
-        res = 0;
-    }
-    // printf("result is %d\n", res);
 
     return res;
 }
 
 void swap(void* a, void* b, size_t size)
 {
-    // printf("i want to swap pointers: %p - string %s and %p - string %s\n", a, b , *((char**) a), *((char**) b));
-    // printf("i want to swap strings %s and %s\n", *( (char**) a), *( (char**) b));
     char* a_ptr = (char*) a;
     char* b_ptr = (char*) b;
     size_t i = 0;
@@ -37,96 +29,66 @@ void swap(void* a, void* b, size_t size)
         }
 }
 
-/*
-int main(void)
-{
-    const char* Data[5] = { "aba",  "daa", "caa", "aaa", "ggggg"};
-
-    size_t size = 5;
-
-    // for (int i = 0; i < size; i++)
-    // {
-    //     printf("Data[%d] is %p, it points on string %p what is %s\n", i, Data + i, *(Data + i), Data[i]);
-    // }
-
-    ArrayOutp(Data, size);
-
-    Sort(Data, size, sizeof(char*), comparator);
-
-    ArrayOutp(Data, size);
-}
-*/
-
 void Sort(void* Data, size_t VolumeSize, size_t ElementSize, int (*comparefunction) (const void *, const void *), Text* Text)
 {
-    // printf("\n\n\n---NEW SORT ITERATION---\n");
+    if (VolumeSize == 1) return;
 
     size_t left = 0;
-    size_t right = ElementSize*(VolumeSize-1);
+    size_t right = VolumeSize - 1;
 
-    // printf("Data start is %p\n", Data);
+    void* mid = (char*)Data + ElementSize * (VolumeSize / 2);
 
-    size_t mid = (size_t) Data + ElementSize*(VolumeSize/2); // проблема вот тут
+    void* Left_ptr = (char*) Data;
+    void* Right_ptr = (char*) Data + right * ElementSize;
 
-    // printf("mid is %p\n", mid);
-
-    // ArrayOutp( (const char**) Data, VolumeSize);
-
-    do
+    while (left < right)
     {
-        while ( comparefunction((void*) mid, Data + left) )
+        // assert(left < Text->NumberOfLines && right < Text->NumberOfLines);
+        while (comparefunction(Left_ptr, mid) == -1)
         {
-            left += ElementSize;
-            // printf("forward\n");
+            Left_ptr += ElementSize;
+            left++;
+            assert(left < Text->NumberOfLines);
         }
-        // printf("another side\n");
 
-        while ( comparefunction(Data + right, (void*) mid) )
+        while (comparefunction(Right_ptr, mid) == 1 )
         {
-            right -= ElementSize;
-            // printf("back\n");
+            Right_ptr -= ElementSize;
+            right--;
         }
-        // printf("swapif\n");
-        if (left <=right)
+
+        if (left <= right)
         {
-            if (left == mid)
+            if (Left_ptr == mid)
             {
-                mid = right;
+                mid = Right_ptr;
             }
-            else if (right == mid)
+            else if (Right_ptr == mid)
             {
-                mid = left;
+                mid = Left_ptr;
             }
 
-            swap((Data + left), (Data + right), ElementSize);
-            left += ElementSize;
-            right -= ElementSize;
-            // ArrayOutp(Text);
+            swap(Left_ptr, Right_ptr, ElementSize);
+            left++;
+            right--;
+            Left_ptr += ElementSize;
+            Right_ptr -= ElementSize;
         }
 
-    } while(left <= right);
+    }
 
-    // ArrayOutp( (const char**) Data, VolumeSize);
-    // ArrayOutp(Text);
     if (right > 0)
     {
-        Sort(Data, (right/ElementSize) + 1, ElementSize, comparator, Text);
+        Sort(Data, right + 1, ElementSize, comparator, Text);
     }
 
-    if (left < (VolumeSize*ElementSize) )
+    if (left < VolumeSize)
     {
-        Sort(Data + left, VolumeSize - (left/ElementSize), ElementSize, comparator, Text);
+        Sort((char* )Data + left * ElementSize, VolumeSize - left, ElementSize, comparator, Text);
     }
 }
 
-/*
-void ArrayOutp(const char** Data, size_t size)
+char* GetPtr(void* Data, int Index, size_t ElementSize)
 {
-    printf("printig Array with size %zu\n", size);
-    for (size_t i = 0; i < size; i++)
-    {
-        printf("%s ", Data[i]);
-    }
-    printf("\n");
+    return (char*) Data + Index*ElementSize;
 }
-*/
