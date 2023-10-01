@@ -9,11 +9,11 @@ int main(void)
 {
     Text MyText = {};
 
-    ReadTextFromFile(&MyText, "TextFileMk2.txt");
+    ReadTextFromFile(&MyText, "EugeneOnegyn.txt");
 
     ArrayOutp(&MyText);
 
-    Sort(MyText.TextPivots, MyText.NumberOfLines, sizeof(const char*), MyStrcmp, &MyText);
+    Sort(MyText.TextPivots, MyText.NumberOfLines, sizeof(const char*), comparator, &MyText);
 
     printf("----Sorted Text----\n\n");
     ArrayOutp(&MyText);
