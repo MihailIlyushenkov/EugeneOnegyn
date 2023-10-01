@@ -9,11 +9,11 @@ int main(void)
 {
     Text MyText = {};
 
-    ReadTextFromFile(&MyText, "EugeneOnegyn.txt");
+    ReadTextFromFile(&MyText, "TextFileMk2.txt");
 
     ArrayOutp(&MyText);
 
-    Sort(MyText.TextPivots, MyText.NumberOfLines, sizeof(const char*), comparator, &MyText);
+    Sort(MyText.TextPivots, MyText.NumberOfLines, sizeof(const char*), MyStrcmp, &MyText);
 
     printf("----Sorted Text----\n\n");
     ArrayOutp(&MyText);
@@ -34,8 +34,8 @@ int MyStrcmp(const void* a_ptr,const void* b_ptr)
 {
     const char* a = *((const char**) a_ptr);
     const char* b = *((const char**) b_ptr);
-    size_t i = 0;
-    size_t j = 0;
+    int i = 0;
+    int j = 0;
     printf("comparing strings %s %s\n", a, b);
 
     while (a[i] != 0)
@@ -48,10 +48,13 @@ int MyStrcmp(const void* a_ptr,const void* b_ptr)
         j++;
     }
 
+    i--;
+    j--;
     printf("lenghts are %d and %d\n", i, j);
 
     while ((i > 0) && (j > 0))
     {
+        printf("comparing symbols %c = %d and %c = %d\n", a[i], a[i], b[j], b[j]);
         if (a[i] > b[j])
         {
             printf("1\n");
@@ -66,18 +69,6 @@ int MyStrcmp(const void* a_ptr,const void* b_ptr)
         i--;
         j--;
     }
-
-    if ( (i == 0) && (j == 0))
-    {
-        printf("0\n");
-        return 0;
-    }
-
-    if (i == 0)
-    {
-        printf("1\n");
-        return 1;
-    }
-    printf("-1\n");
-    return -1;
+    printf("0\n");
+    return 0;
 }

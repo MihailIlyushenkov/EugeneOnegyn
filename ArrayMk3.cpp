@@ -46,7 +46,7 @@ ssize_t MyGetline(char **lineptr, size_t *n, FILE *stream)
             return -1;
         }
 
-        for (int i = 0; i < counter; i++)
+        for (size_t i = 0; i < counter; i++)
         {
             (*lineptr)[i] = subbuf_p[i];
         }
@@ -65,7 +65,7 @@ ssize_t MyGetline(char **lineptr, size_t *n, FILE *stream)
             }
 
         }
-        for (int i = 0; i < counter; i++)
+        for (size_t i = 0; i < counter; i++)
         {
             (*lineptr)[i] = subbuf_p[i];
         }
@@ -112,7 +112,7 @@ void ReadTextFromFile(Text* Text, const char* Nameoffile)
 
     file = fopen(Text->FileName, "r");
 
-    size_t nchar = 0, maxlen = 0;
+    size_t nchar = 0;
 
     struct stat FileData;
     stat(Text->FileName, &FileData);
@@ -129,7 +129,7 @@ void ReadTextFromFile(Text* Text, const char* Nameoffile)
     GetTextPivots(Text, nchar);
 }
 
-int GetTextPivots(Text* Text, size_t nchar)
+size_t GetTextPivots(Text* Text, size_t nchar)
 {
     size_t nlines = 0;
 
@@ -142,7 +142,7 @@ int GetTextPivots(Text* Text, size_t nchar)
     }
     nlines++;
     Text->NumberOfLines = nlines;
-    printf("%d\n", Text->NumberOfLines);
+    printf("%zu\n", Text->NumberOfLines);
 
     Text->TextPivots = (char **) calloc(nlines, sizeof(char*));
     (Text->TextPivots)[0] = Text->Buffer;
@@ -152,7 +152,7 @@ int GetTextPivots(Text* Text, size_t nchar)
     {
         if ((Text->Buffer)[i] == '\n')
         {
-            
+
             (Text->TextPivots)[StringNum] = &((Text->Buffer)[i+1]);
             StringNum += 1;
             (Text->Buffer)[i] = '\0';

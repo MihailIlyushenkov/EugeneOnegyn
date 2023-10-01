@@ -21,7 +21,7 @@ char *strdup(const char *str);
 int comparator(const void* a, const void* b);
 void ReadTextFromFile(Text* Text, const char * Nameoffile);
 void ClearText(Text* Text);
-int GetTextPivots(Text* Text, size_t nchar);
+size_t GetTextPivots(Text* Text, size_t nchar);
 
 void Sort(void* Data, size_t VolumeSize, size_t ElementSize, int (*comparefunction) (const void *, const void *), Text* Text);
 void swap(void* a, void* b, size_t size);
